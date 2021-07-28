@@ -1,14 +1,16 @@
+
+//We want to find the total amount of customers and randomize it. We can use this function throughout our code.
 function getRandomNumberOfCustomersGivenARange(minCustomers, maxCustomers) {
   return (Math.floor(Math.random() * (maxCustomers - minCustomers + 1)) + minCustomers); // if we get 0 we start at mincustomers, otherwise we multiply difference between max and min time 0 or 1 adding 1 because zero based
 }
 
-
+//set the business hours from the stakeholder info in a variable we can use again
 const biznessHours = ["6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm"];
 
-
+// first object 'Seattle'.
 let Seattle = {
   
-  minCustomers: 23, 
+  minCustomers: 23, // ALL this info was given in instructions!
   maxCustomers: 65, 
   avgCookieSale: 1, 
   // Both of these next 2 arrays should end up the same length as the array for each hr of the day 15
@@ -16,30 +18,33 @@ let Seattle = {
   cookiesSoldPerHour: [], 
   totalDailyCookies : 0,
   
-  // methods
- //1
+  // methods~
+
+ // method 1- Get customer function with randomizer
   getCustomersPerHour: function () {
       //Use our random customer method. in same obj/instance so use 'this'
-      // add each random num of custs to our array where each index aligns with an hour in the day array
+      // aWe want to line our hour array from the loop with the customer per hour array
       for (let index = 0; index < biznessHours.length; index++) {
-          // Add computed average customer value for each hour to our array/list
+          // Add computed average customer value for EACH HOUR to our array.
           // the 'this' keyword... the props we using are in this class so we need 'this'
           this.customersPerHour.push(getRandomNumberOfCustomersGivenARange(this.minCustomers, this.maxCustomers));// pass in min customers. pass in max customers.;  
           //console.log(this.customersPerHour[index]);         
       }
-      // lets see if we r even close. lets add some debug..... string literal
+      
       
       
   },
 
-  // now based on an average number of customers for a given hr, we need to us that value from array rando number along with data given for avg cookies per person and calcualte a guesstimate at number of cookies
- //2
+  // now based on an AVERAGE number of customers for a GIVEN hr, we need to use that value from array random number along with data given for avg cookies per person and calcualte a guesstimate at number of cookies
+ 
+  //2 method~ getCookiesSoldPerHour
+
   getCookiesSoldPerHour: function () {
       // initialize an ongoing total
-      //totalDailyCookies = 0;
-      this.getCustomersPerHour(); // load up customer data
+      this.getCustomersPerHour(); // load up customer data from last function
       // lets load up our cookiesSoldPerHour by walking through each element in our average customers per hour array (number of customers * cookies sold per customer)
-      for (let index = 0; index < biznessHours.length; index++) {
+          //loop returns again for each hour
+        for (let index = 0; index < biznessHours.length; index++) {
           // Calc number of cookies
           let dailyCookies = Math.floor(this.customersPerHour[index] * this.avgCookieSale);
           // Lets floor it so we get a whole number
@@ -55,14 +60,20 @@ let Seattle = {
       console.log(this.cookiesSoldPerHour); //code works!!
       
   },
- //3
+ //3 method..GET IT ALL TO SHOW UP ON HTML PAGE
+  
+ // declared a function..Could have been named anything we wanted!
   render() {
       this.getCookiesSoldPerHour(); //call a function
+      //Declared a variable ane named it the elemetn we will be putting it in.
       const unorderedList = document.getElementById('Seattle'); //grab Seattle in HTML
+      //This is how we pull the hours!
       for (let i = 0; i < 15; i++) {
+        //declared another variable we will be putting in HTML 
           const listItem = document.createElement('li');
-          // 6am: 16 cookies
+          // text content just makes text show up(Think of an alert with string concatenation!)
           listItem.textContent = biznessHours[i] + ': ' + this.cookiesSoldPerHour[i] + ' cookies';
+          //basically adding the chuld 'listItem' into 'unorderedList'
           unorderedList.appendChild(listItem);
       }
       const listItem = document.createElement('li');
